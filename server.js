@@ -88,15 +88,8 @@ router.get('/students', (req, res) => {
     res.json(students)
 })
 
-router.post('/students/post', (req, res) => {
-    console.log(req.body)
-    if (students.findIndex(student => student.id === req.body.id) != -1) {
-        students = students.map(student => student.id === req.body.id ? req.body : student);
-    } else {
-        students.push(req.body);
-    }
-    console.log(students)
-    res.json(students)
+router.get('/students/:id', ({params}, res) => {
+    res.json(students.find(student => student.id == params.id))
 })
 
 app.listen(PORT, () => {

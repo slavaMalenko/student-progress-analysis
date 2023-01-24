@@ -3,7 +3,10 @@ import { BottomNavigation, BottomNavigationAction, CssBaseline, Container } from
 import RestoreIcon from '@mui/icons-material/Restore';
 import CastForEducationIcon from '@mui/icons-material/CastForEducation';
 import { styled } from '@mui/material/styles';
-import JournalInitComponent from './journal/JournalInitComponent';
+import JournalInitComponent from './journal/InitComponent';
+import { Route, Routes, useNavigate, Link } from 'react-router-dom';
+import ViewlInitComponent from './view/InitComponent';
+import { observer } from 'mobx-react';
 
 const StyledContainer = styled(Container)(() => ({width: "1700px"}));
 const StyledBottomNavigation = styled(BottomNavigation)(() => ({
@@ -12,14 +15,22 @@ const StyledBottomNavigation = styled(BottomNavigation)(() => ({
     bottom: 0,
 }));
 
-export default function App() {
+function App() {
     const [menuSelected, setMenuSeleted] = useState("journal");
+    const navigate = useNavigate();
 
     return (
         <Fragment>
             <CssBaseline />
             <StyledContainer>
-                {menuSelected === "journal" && <JournalInitComponent />}
+                <Routes>
+                    {menuSelected === "journal" && (
+                        <Fragment>
+                            <Route exact path="/students" element={<JournalInitComponent />} />
+                            <Route path="/students/:id?" element={<ViewlInitComponent />} />
+                        </Fragment>
+                    )}
+                </Routes>
             </StyledContainer>
             <StyledBottomNavigation
                 showLabels
@@ -28,9 +39,11 @@ export default function App() {
                     setMenuSeleted(newValue);
                 }}
             >
-                <BottomNavigationAction label="Журнал" value="journal" icon={<RestoreIcon />} />
-                <BottomNavigationAction label="Успеваемость" value="performance" icon={<CastForEducationIcon />} />
+                <BottomNavigationAction onClick={() => navigate("/students")} label="Журнал" value="journal" icon={<RestoreIcon />} />
+                <BottomNavigationAction onClick={() => navigate("/performance")} label="Успеваемость" value="performance" icon={<CastForEducationIcon />} />
             </StyledBottomNavigation>
         </Fragment>
     )
 }
+
+export default observer(App);

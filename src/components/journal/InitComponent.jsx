@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { StorageProvider } from '../../hooks/useStore';
 import useStudents from '../../hooks/useStudents';
 import { studentsStorage } from '../../stateManagement';
-import JournalViewComponent from './JournalViewComponent';
+import JournalViewComponent from './ViewComponent';
 
 function JournalInitComponent() {
     const students = useStudents();

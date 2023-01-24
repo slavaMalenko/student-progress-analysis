@@ -2,6 +2,7 @@ import { observer } from 'mobx-react';
 import React, { useCallback } from 'react';
 import { useStore } from '../../hooks/useStore';
 import DefaultTable from '../ui/DefaultTable';
+import { useNavigate } from "react-router-dom";
 
 const columns = [
     {key: "lastName", label: "Фамилия"},
@@ -16,16 +17,26 @@ const columns = [
 
 function JournalViewComponent() {
     const {studentsList} = useStore();
+    const navigate = useNavigate();
     const getData = useCallback((studentsList = []) => {
-        return studentsList.map(({firstName, lastName, patronymic, estimates}) => {
+        return studentsList.map(({id, firstName, lastName, patronymic, estimates}) => {
             const estimatesObj = {};
+            const onClickRow = () => navigate(`/students/${id}`);
             estimates.forEach(({name, value}) => {
                 estimatesObj[name] = value;
             });
-            return {firstName, lastName, patronymic, ...estimatesObj}
+            return {
+                data: {
+                    firstName,
+                    lastName,
+                    patronymic,
+                    ...estimatesObj
+                },
+                onClickRow
+            }
         })
     }, [studentsList])
-    return <DefaultTable data={getData(studentsList)} columns={columns} />
+    return <DefaultTable dataSource={getData(studentsList)} columns={columns} />
 }
 
 export default observer(JournalViewComponent);

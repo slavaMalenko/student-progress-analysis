@@ -29,7 +29,7 @@ export const StyledTableCell = styled(TableCell)(() => ({
     },
 }));
 
-function DefaultTable({data = [], columns}) {
+function DefaultTable({dataSource = [], columns}) {
     return (
     <StyledTableContainer>
         <TableContainer
@@ -43,8 +43,8 @@ function DefaultTable({data = [], columns}) {
                 </TableHead>
 
                 <TableBody>
-                    {data.map((item, index) => <StyledTableRow key={`${item} ${index}`} onClick={() => console.log(item.firstName)}>
-                        {columns.map(({key}, index) => <StyledTableCell key={`${key} ${index}`}>{item[key]}</StyledTableCell>)}
+                    {dataSource.map(({data, onClickRow}, index) => <StyledTableRow key={`${data} ${index}`} onClick={onClickRow}>
+                        {columns.map(({key}, index) => <StyledTableCell key={`${key} ${index}`}>{data[key]}</StyledTableCell>)}
                     </StyledTableRow>)}
                 </TableBody>
             </Table>
