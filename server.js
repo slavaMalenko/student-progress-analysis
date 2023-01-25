@@ -1,80 +1,8 @@
 const express = require('express');
 const Router = require('express');
+const { studentsList } = require('./students');
 
-let students = [
-    {
-        id: 1,
-        firstName: "Богуслав",
-        lastName: "Маленко",
-        patronymic: "Юрьевич",
-        estimates: [
-            {
-                name: "projectManagement",
-                value: 5
-            }, {
-                name: "mathModels",
-                value: 5
-            }, {
-                name: "researchMethodology",
-                value: 5
-            }, {
-                name: "psychologyProfessionalActivity",
-                value: 5
-            }, {
-                name: "modelingLanguages",
-                value: 5
-            },
-        ]
-    },
-    {
-        id: 2,
-        firstName: "Виктор",
-        lastName: "Соляник",
-        patronymic: "Юрьевич",
-        estimates: [
-            {
-                name: "projectManagement",
-                value: 5
-            }, {
-                name: "mathModels",
-                value: 5
-            }, {
-                name: "researchMethodology",
-                value: 5
-            }, {
-                name: "psychologyProfessionalActivity",
-                value: 5
-            }, {
-                name: "modelingLanguages",
-                value: 5
-            },
-        ]
-    },
-    { 
-        id: 3,
-        firstName: "Андрей",
-        lastName: "Рядовой",
-        patronymic: "Юрьевич",
-        estimates: [
-            {
-                name: "projectManagement",
-                value: 5
-            }, {
-                name: "mathModels",
-                value: 5
-            }, {
-                name: "researchMethodology",
-                value: 5
-            }, {
-                name: "psychologyProfessionalActivity",
-                value: 5
-            }, {
-                name: "modelingLanguages",
-                value: 5
-            },
-        ]
-    },
-]
+let students = studentsList;
 
 const PORT = process.env.PORT ?? 4000;
 const app = express();
@@ -84,8 +12,14 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(router);
 
-router.get('/students', (req, res) => {
-    res.json(students)
+router.get('/students', ({query}, res) => {
+    console.log(query)
+    if (query.course && query.group) {
+        const studentsFilter = students.filter(({course, group}) => course === query.course && group === query.group)
+        res.json(studentsFilter)
+    } else {
+        res.json(students)
+    }
 })
 
 router.get('/students/:id', ({params}, res) => {

@@ -7,14 +7,14 @@ const deserializeStudents = students => {
     return students.map(student => new StudentStorage(student));
 }
 
-export default function useStudents() {
+export default function useStudents({course, group}) {
     const [students, setStudents] = useState();
     const getStudents = useAction(getStudentsAction);
 
     useEffect(() => {
-        getStudents()
+        getStudents({course, group})
             .then(deserializeStudents)
             .then(setStudents);
-    }, [getStudents, setStudents]);
+    }, [getStudents, setStudents, course, group]);
     return students;
 }

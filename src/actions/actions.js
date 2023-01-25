@@ -4,8 +4,8 @@ export const getStudentsAction = "get.students";
 export const getStudentAction = "get.student";
 
 export const actions = {
-    [getStudentsAction]: async () => {
-        const action = axios.get('http://localhost:4000/students')
+    [getStudentsAction]: async ({course, group}) => {
+        const action = axios.get(`http://localhost:4000/students/`, {params: { course, group }})
         const response = await action;
         return response.data;
     },

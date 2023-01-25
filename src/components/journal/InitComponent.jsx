@@ -1,12 +1,13 @@
 import { observer } from 'mobx-react';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StorageProvider } from '../../hooks/useStore';
 import useStudents from '../../hooks/useStudents';
-import { studentsStorage } from '../../stateManagement';
+import { journalFilterStorage, studentsStorage } from '../../stateManagement';
 import JournalViewComponent from './ViewComponent';
 
 function JournalInitComponent() {
-    const students = useStudents();
+    const {course, group} = journalFilterStorage;
+    const students = useStudents({course, group});
 
     useEffect(() => {
         studentsStorage.setStudents(students);

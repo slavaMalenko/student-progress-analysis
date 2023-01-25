@@ -1,14 +1,17 @@
 import React, { useState, Fragment } from 'react';
-import { BottomNavigation, BottomNavigationAction, CssBaseline, Container } from '@mui/material';
+import { observer } from 'mobx-react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+
+import { BottomNavigation, BottomNavigationAction, CssBaseline } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import RestoreIcon from '@mui/icons-material/Restore';
 import CastForEducationIcon from '@mui/icons-material/CastForEducation';
-import { styled } from '@mui/material/styles';
-import JournalInitComponent from './journal/InitComponent';
-import { Route, Routes, useNavigate, Link } from 'react-router-dom';
-import ViewlInitComponent from './view/InitComponent';
-import { observer } from 'mobx-react';
 
-const StyledContainer = styled(Container)(() => ({width: "1700px"}));
+import JournalInitComponent from './journal/InitComponent';
+import ViewlInitComponent from './view/InitComponent';
+
+import { BigStyledContainer } from './ui/Containers';
+
 const StyledBottomNavigation = styled(BottomNavigation)(() => ({
     position: 'fixed',
     width: '100%',
@@ -22,7 +25,7 @@ function App() {
     return (
         <Fragment>
             <CssBaseline />
-            <StyledContainer>
+            <BigStyledContainer>
                 <Routes>
                     {menuSelected === "journal" && (
                         <Fragment>
@@ -31,7 +34,7 @@ function App() {
                         </Fragment>
                     )}
                 </Routes>
-            </StyledContainer>
+            </BigStyledContainer>
             <StyledBottomNavigation
                 showLabels
                 value={menuSelected}
